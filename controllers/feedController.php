@@ -1,6 +1,6 @@
 <?php
 
-    /*This Controller gets all the posts from the users that you follow and displays them on the home page*/
+    /*This Controller gets all the posts to display on this users (with usertoken = usertokenfc) home page*/
 
     session_start();  
     include($_SERVER['DOCUMENT_ROOT'] . '/projects/twitter/config/db.php');
@@ -22,12 +22,8 @@
             $sql = "SELECT * FROM posts WHERE usertoken='" . $rowfollow['profiletoken'] . "'  ORDER BY postdate DESC LIMIT 30";
             $result = mysqli_query($conn,$sql);
 
-            
-
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-
                 array_push($postsArray, $row['id']);
-
             }      
         }
 
@@ -86,9 +82,6 @@
                     if ($useravatar == "") {
                         $useravatar = "/projects/twitter/img/default_avatar.png";
                     }
-    
-                    
-    
                 }
     
                 // Checking if this user has liked this post
@@ -107,8 +100,6 @@
                 if (mysqli_num_rows($result2) > 0) {
                     $retweetedPost = true;
                 }
-    
-    
     
                 //Getting Like Count
     
@@ -152,7 +143,6 @@
                                             <svg viewBox='0 0 24 24'><g><path d='M20.746 5.236h-3.75V4.25c0-1.24-1.01-2.25-2.25-2.25h-5.5c-1.24 0-2.25 1.01-2.25 2.25v.986h-3.75c-.414 0-.75.336-.75.75s.336.75.75.75h.368l1.583 13.262c.216 1.193 1.31 2.027 2.658 2.027h8.282c1.35 0 2.442-.834 2.664-2.072l1.577-13.217h.368c.414 0 .75-.336.75-.75s-.335-.75-.75-.75zM8.496 4.25c0-.413.337-.75.75-.75h5.5c.413 0 .75.337.75.75v.986h-7V4.25zm8.822 15.48c-.1.55-.664.795-1.18.795H7.854c-.517 0-1.083-.246-1.175-.75L5.126 6.735h13.74L17.32 19.732z'></path><path d='M10 17.75c.414 0 .75-.336.75-.75v-7c0-.414-.336-.75-.75-.75s-.75.336-.75.75v7c0 .414.336.75.75.75zm4 0c.414 0 .75-.336.75-.75v-7c0-.414-.336-.75-.75-.75s-.75.336-.75.75v7c0 .414.336.75.75.75z'></path></g></svg>
                                         </button>
                                     </div>";
-                                    
                                 }
                             echo "
                                 
@@ -198,9 +188,6 @@
                                     </div>
                                 "; 
                             }
-    
-                            
-                            
                             if ($likedPost) {
                                 echo "
                                     <div class='tweet-icon-wrapper' data-feed-button='like'>    
@@ -223,13 +210,11 @@
                             }
                             
                             echo "
-         
                                 <div class='tweet-icon-wrapper' data-feed-button='share'>    
                                     <div class='icon-wrapper-flex' aria-label='share-button' id='tweet-icon-div'>
                                         <svg viewBox='0 0 24 24' class=''><g><path d='M17.53 7.47l-5-5c-.293-.293-.768-.293-1.06 0l-5 5c-.294.293-.294.768 0 1.06s.767.294 1.06 0l3.72-3.72V15c0 .414.336.75.75.75s.75-.336.75-.75V4.81l3.72 3.72c.146.147.338.22.53.22s.384-.072.53-.22c.293-.293.293-.767 0-1.06z'></path><path d='M19.708 21.944H4.292C3.028 21.944 2 20.916 2 19.652V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 .437.355.792.792.792h15.416c.437 0 .792-.355.792-.792V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 1.264-1.028 2.292-2.292 2.292z'></path></g></svg>       
                                     </div>
-                                </div> 
-                                      
+                                </div>        
                             </div>
                         </div>
                     </div>
@@ -247,13 +232,6 @@
                 </div>
             ";
         }
-
-        
-
-
-
-
-
     }
 
     if (isset($_POST['reply'])) {
@@ -273,12 +251,7 @@
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ssss', $postaction, $commentDate, $posttoken, $usertokenfc);
         $stmt->execute();
-
-        
-
     }
-
-
 ?>
 
 <script>
@@ -288,14 +261,4 @@
         var urlNameLowerCase = urlName.toLowerCase();
         window.location.href = "user/".concat(urlNameLowerCase);
     });
-
-    // Note that the commented out below is now in feedHandler JS
-/*
-    // This checks if the tweet body is clicked and if so redirects to that tweets page
-    $(".new-tweet-text").click(function() {
-        var urlToken = $(this).parent().parent().attr("data-post-token");
-        //window.location.href = "/skel/tweetSkel/status/".concat(urlToken);
-        window.location.href = "skel/tweetSkel";
-    });
-    */
 </script>
